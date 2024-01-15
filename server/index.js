@@ -1,12 +1,16 @@
 import express from "express";
+import cors from "cors"
 
 const app = express();
 const PORT = process.env.PORT;
+const ACCESS_ORIGIN = process.env.ACCESS_ORIGIN
+
+app.use()
 
 app.get("/", (req, res) => {
   res.header(
     "Acces-Control-Allow-Origin",
-    "https://bulls-and-cows-server.vercel.app"
+    ACCESS_ORIGIN
   );
   res.send("Hola");
 });
