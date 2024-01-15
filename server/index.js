@@ -3,15 +3,14 @@ import cors from "cors"
 
 const app = express();
 const PORT = process.env.PORT;
-const ACCESS_ORIGIN = process.env.ACCESS_ORIGIN
+const ALLOW_ORIGINS = process.env.ALLOW_ORIGINS
 
-app.use()
+app.use(cors({
+  origin: ALLOW_ORIGINS,
+  credentials: true
+}))
 
 app.get("/", (req, res) => {
-  res.header(
-    "Acces-Control-Allow-Origin",
-    ACCESS_ORIGIN
-  );
   res.send("Hola");
 });
 
