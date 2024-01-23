@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
-import controller from "./controllers/handleClientMessage";
+import controller from "./controllers/handleClientMessage.js";
 
 const { ENV, DEV_ORIGIN, PROD_ORIGIN, PORT } = process.env;
 
@@ -17,6 +17,6 @@ const io = new SocketServer(server, {
   }
 });
 
-io.on("connection", controller);
+io.on("connection", socket => controller(socket));
 
 server.listen(PORT, () => console.log(`>> Server on PORT ${PORT} <<`));
