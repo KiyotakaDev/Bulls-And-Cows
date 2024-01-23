@@ -7,13 +7,25 @@ const controller = (socket, io) => {
 
   socket.on("createNewRoom", (roomName) => {
     if (salas.has(roomName)) {
-      console.log("Nombre de sala ya existente");
+      socket.emit("roomFull");
     } else {
       salas.add(roomName);
       socket.join(roomName);
 
       const totalCliens = io.sockets.adapter.rooms.get(roomName).size;
       console.log("Personas en la sala" + totalCliens);
+      console.log(socket.rooms);
+    }
+  });
+
+  socket.on("joinRoom", (roomName) => {
+    if (salas.has(roomName)) {
+      socket.join(roomName);
+      const totalCliens = io.sockets.adapter.rooms.get(roomName).size;
+      console.log("Personas en la sala: " + totalCliens);
+      console.log(socket.rooms);
+    } else {
+      socket.emit("roomFull");
     }
   });
 
