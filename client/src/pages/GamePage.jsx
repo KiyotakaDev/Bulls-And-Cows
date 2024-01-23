@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const GamePage = () => {
-  const [setRecievedMessage] = useState("");
+  const [recievedMessage, setRecievedMessage] = useState("");
   const [messageToSend, setMessageToSend] = useState("");
   const [allMessages, setAllMessages] = useState([]);
 
   const socket = io("http://localhost:3000/");
 
   useEffect(() => {
-    socket.on("message", (data) => {
-      const { message } = data;
+    socket.on("message", (message) => {
       setRecievedMessage(message);
-
       setAllMessages((prevMessages) => [...prevMessages, message]);
     });
-  }, []);
+
+    return () => socket.off("message")
+  }, [socket]);
 
   useEffect(() => {
-    socket.emit("message", { message: messageToSend });
-  }, [messageToSend]);
+    socket.emit("message",  messageToSend);
+  }, [messageToSend, socket]);
 
   return (
     <div className="h-screen w-full bg-leveled-800 text-white flex flex-col justify-center items-center gap-y-6">
@@ -28,8 +28,8 @@ const GamePage = () => {
         onSubmit={(event) => {
           event.preventDefault();
           const msg = event.target[0].value;
+          
           setMessageToSend(msg);
-          setAllMessages((prevMessage) => [...prevMessage, msg]);
           event.target[0].value = "";
         }}
       >
