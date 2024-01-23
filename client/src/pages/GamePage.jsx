@@ -8,7 +8,8 @@ const GamePage = () => {
   
   useEffect(() => {
     socket.emit("message", (data) => {
-      setRecievedMessage(data)
+      const { message } = data
+      setRecievedMessage(message)
     })
   }, [])
   
