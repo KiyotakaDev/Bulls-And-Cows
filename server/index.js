@@ -1,24 +1,20 @@
 import express from "express";
-import cors from "cors";
 import http from "http";
-import { Socket } from "socket.io";
+import { Server as SocketServer } from "socket.io";
 
-const { ENV, DEV_ORIGIN, PROD_ORIGIN } = process.env;
-const PORT = process.env.PORT;
-
-const app = express();
-const server = http.createServer(app);
-const io = new Socket(server);
+const { ENV, DEV_ORIGIN, PROD_ORIGIN, PORT } = process.env;
 
 const ALLOW_ORIGIN =
   ENV === "DEV" ? DEV_ORIGIN : ENV === "PROD" ? PROD_ORIGIN : null;
 
-app.use(
-  cors({
+const app = express();
+const server = http.createServer(app);
+const io = new SocketServer(server, {
+  cors: {
     origin: ALLOW_ORIGIN,
-    credentials: true,
-  })
-);
+    credentials: true
+  }
+});
 
 io.on("connection", (socket) => {
   console.log("New client connected");

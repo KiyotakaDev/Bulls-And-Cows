@@ -7,7 +7,7 @@ const GamePage = () => {
   const socket = io("http://localhost:3000/");
   
   useEffect(() => {
-    socket.emit("message", (data) => {
+    socket.on("message", (data) => {
       setRecievedMessage(data)
     })
   }, [])
