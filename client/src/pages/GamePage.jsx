@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+const socket = io("http://localhost:3000/");
+
 const GamePage = () => {
   const [messageToSend, setMessageToSend] = useState("");
   const [allMessages, setAllMessages] = useState([]);
 
-  const socket = io("http://localhost:3000/");
 
   useEffect(() => {
     socket.on("message", (message) => {
       setAllMessages((prevMessages) => [...prevMessages, message]);
     });
 
-    return () => socket.off("message")
+    return () => {
+      socket.off("message")
+    }
   }, [socket]);
 
   useEffect(() => {

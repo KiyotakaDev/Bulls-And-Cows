@@ -1,8 +1,10 @@
-const controller = (socket) => {
-  console.log("New client connected" + socket.id);
+const controller = (socket, io) => {
+  const sliced = socket.id.substring(0, 3)
 
-  socket.on("message", ({ message }) => {
-    socket.emit("message", `${socket.id}: ${message}`);
+  console.log("New client connected " + sliced);
+
+  socket.on("message", (message) => {
+    io.emit("message", message);
   });
 
   socket.on("disconnect", () => {

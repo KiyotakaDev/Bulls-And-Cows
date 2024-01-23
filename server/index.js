@@ -17,6 +17,6 @@ const io = new SocketServer(server, {
   }
 });
 
-io.on("connection", socket => controller(socket));
+io.on("connection", (socket) => controller(socket, io))
 
 server.listen(PORT, () => console.log(`>> Server on PORT ${PORT} <<`));
