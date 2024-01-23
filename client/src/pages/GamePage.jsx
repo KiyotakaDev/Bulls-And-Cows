@@ -6,8 +6,7 @@ const socket = io("http://localhost:3000/");
 const GamePage = () => {
   const [messageToSend, setMessageToSend] = useState("");
   const [allMessages, setAllMessages] = useState([]);
-
-
+  
   useEffect(() => {
     socket.on("message", (message) => {
       setAllMessages((prevMessages) => [...prevMessages, message]);
