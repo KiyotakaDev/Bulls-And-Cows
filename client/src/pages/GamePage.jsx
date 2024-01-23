@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const GamePage = () => {
-  const [recievedMessage, setRecievedMessage] = useState("");
   const [messageToSend, setMessageToSend] = useState("");
   const [allMessages, setAllMessages] = useState([]);
 
@@ -10,7 +9,6 @@ const GamePage = () => {
 
   useEffect(() => {
     socket.on("message", (message) => {
-      setRecievedMessage(message);
       setAllMessages((prevMessages) => [...prevMessages, message]);
     });
 
