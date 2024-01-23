@@ -20,8 +20,12 @@ io.on("connection", (socket) => {
   console.log("New client connected");
   socket.emit("message", "Hola papus :v");
 
-  socket.on("message", (message) => {
-    console.log(message);
+  socket.on("message", ({message}) => {
+    socket.emit("message", `${socket.id}: ${message}`)
+  })
+
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} disconected`);
   })
   
 });
