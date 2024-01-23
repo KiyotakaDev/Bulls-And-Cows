@@ -19,6 +19,10 @@ const io = new SocketServer(server, {
 io.on("connection", (socket) => {
   console.log("New client connected");
   socket.emit("message", "Hola papus :v");
+
+  socket.on("message", (message) => {
+    console.log(message);
+  })
   
 });
 
