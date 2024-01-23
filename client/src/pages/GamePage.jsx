@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 const GamePage = () => {
@@ -10,6 +10,10 @@ const GamePage = () => {
     socket.on("message", (data) => {
       setRecievedMessage(data)
     })
+
+    socket.emit("message", "Hola desde el cliente")
+
+
   }, [])
   
 
