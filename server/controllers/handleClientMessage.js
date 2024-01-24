@@ -1,35 +1,36 @@
 const salas = new Set();
 
 const controller = (socket, io) => {
-  const sliced = socket.id.substring(0, 3);
 
-  console.log("New client connected " + sliced);
+  console.log("New client connected");
 
   socket.on("createNewRoom", (roomName) => {
+
     if (salas.has(roomName)) {
       socket.emit("roomFull");
+
     } else {
+
       salas.add(roomName);
       socket.join(roomName);
-
-      const totalCliens = io.sockets.adapter.rooms.get(roomName).size;
-      console.log("Personas en la sala" + totalCliens);
-      console.log(socket.rooms);
+      console.log(roomName);
     }
   });
 
   socket.on("joinRoom", (roomName) => {
     if (salas.has(roomName)) {
       socket.join(roomName);
-      const totalCliens = io.sockets.adapter.rooms.get(roomName).size;
-      console.log("Personas en la sala: " + totalCliens);
-      console.log(socket.rooms);
+      const idClients = Array.from(io.sockets.adapter.rooms.get(roomName) || []);;
+      const totalClients = io.sockets.adapter.rooms.get(roomName).size;
+      console.log("Personas en la sala: " + totalClients);
+      console.log(idClients);
+      console.log(salas);
     } else {
       socket.emit("roomFull");
     }
   });
 
-  socket.on("message", (message) => {
+  socket.on("messageInRoom", (message) => {
     const rooms = Object.keys(socket.rooms);
     const currentRoom = rooms[1];
     io.to(currentRoom).emit("message", message);

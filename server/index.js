@@ -13,10 +13,10 @@ const server = http.createServer(app);
 const io = new SocketServer(server, {
   cors: {
     origin: ALLOW_ORIGIN,
-    credentials: true
-  }
+    credentials: true,
+  },
 });
 
-io.on("connection", (socket) => controller(socket, io))
+io.on("connection", (socket) => controller(socket, io));
 
 server.listen(PORT, () => console.log(`>> Server on PORT ${PORT} <<`));
